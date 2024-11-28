@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystical Realm Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-form {
+            background-color: rgba(20, 20, 20, 0.8);
+            border: 2px solid #4a3f35;
+            border-radius: 10px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 2px solid #4a3f35;
+            background-color: transparent;
+            color: #e0e0e0;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            background-color: #4a3f35;
+            color: #ffd700;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffd700;
+            color: #0a0a0a;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+            animation: firefly 5s infinite;
+        }
+
+        @keyframes firefly {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+
+        .magical-mist {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #1a0f0f, #2c1e1e, #1a0f0f);
+            opacity: 0.5;
+            animation: mistAnimation 20s infinite alternate;
+        }
+
+        @keyframes mistAnimation {
+            0% {
+                transform: translateX(-10%) scale(1.1);
+            }
+            100% {
+                transform: translateX(10%) scale(1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="magical-mist"></div>
+    </div>
+    <div class="container">
+        <form class="login-form col-md-6" action="" method="post" novalidate>
+            {% csrf_token %}
+            <h1>Mystical Realm</h1>
+            {{ form.as_p }}
+            <button type="submit">Enter the Realm</button>
+            <a href="" class="btn btn-warning">Reset Password</a>
+            <a href="{% url 'account:user_register' %}" class="btn btn-info">Sign Up Here</a>
+        </form>
+    </div>
+
+    <script>
+        function createFireflies() {
+            const container = document.querySelector('.background');
+            for (let i = 0; i < 50; i++) {
+                const firefly = document.createElement('div');
+                firefly.classList.add('firefly');
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.top = `${Math.random() * 100}%`;
+                firefly.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(firefly);
+            }
+        }
+
+        function animateBackground() {
+            const background = document.querySelector('.background');
+            let x = 0;
+            let y = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                x = e.clientX / window.innerWidth;
+                y = e.clientY / window.innerHeight;
+            });
+
+            function update() {
+                const translateX = x * 20;
+                const translateY = y * 20;
+                background.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                requestAnimationFrame(update);
+            }
+
+            update();
+        }
+
+        createFireflies();
+        animateBackground();
+    </script>
+    </body>
+</html>

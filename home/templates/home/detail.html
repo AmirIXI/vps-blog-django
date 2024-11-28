@@ -1,0 +1,615 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_styles %} 
+
+<style> 
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .post-card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .post-card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        transform: translateY(-10px);
+    }
+
+    .post-header {
+        background: linear-gradient(45deg, #007bff, #00e5ff);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .post-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+        transform: rotate(45deg);
+        animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+        to {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+    }
+
+    .post-title {
+        margin: 0;
+        font-size: 2.5em;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        animation: slideInDown 0.5s ease, pulse 2s infinite;
+    }
+
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .post-meta {
+        background-color: #f8f9fa;
+        padding: 15px 20px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .post-author {
+        font-weight: bold;
+        color: #495057;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .post-author::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #007bff;
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .post-author:hover::after {
+        visibility: visible;
+        transform: scaleX(1);
+    }
+
+    .post-likes {
+        font-style: italic;
+        color: #6c757d;
+        transition: all 0.3s ease;
+    }
+
+    .post-likes:hover {
+        transform: scale(1.1);
+    }
+
+    .post-body {
+        padding: 30px;
+        font-size: 1.1em;
+        line-height: 1.8;
+        animation: fadeIn 1s ease;
+        position: relative;
+    }
+
+    .post-body::first-letter {
+        font-size: 3em;
+        font-weight: bold;
+        color: #007bff;
+        float: left;
+        margin-right: 8px;
+        line-height: 1;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .post-footer {
+        background-color: #f8f9fa;
+        padding: 15px 20px;
+        color: #6c757d;
+        font-size: 0.9em;
+        text-align: right;
+    }
+
+    .action-buttons {
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s ease;
+    }
+
+    .btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(0,0,0,0.18), 0 5px 5px rgba(0,0,0,0.12);
+    }
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn-danger {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+    }
+
+    .btn-info {
+        background: linear-gradient(45deg, #2196f3, #4caf50);
+        color: white;
+    }
+
+    .like-button {
+        background: linear-gradient(45deg, #11998e, #38ef7d);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .like-button i {
+        margin-right: 8px;
+        font-size: 1.2em;
+    }
+
+    .like-button.active {
+        background: linear-gradient(45deg, #ED213A, #93291E);
+    }
+
+    .like-button:hover {
+        transform: scale(1.05) rotate(-3deg);
+        box-shadow: 0 7px 14px rgba(0,0,0,0.18), 0 5px 5px rgba(0,0,0,0.12);
+    }
+
+    .like-button::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+        transform: rotate(45deg);
+        transition: all 0.3s ease;
+    }
+
+    .like-button:hover::after {
+        transform: rotate(45deg) translate(50%, 50%);
+    }
+
+    .comment-section {
+        margin-top: 40px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-form textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #ced4da;
+        border-radius: 10px;
+        resize: vertical;
+        transition: all 0.3s ease;
+        font-size: 1em;
+    }
+
+    .comment-form textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        outline: none;
+    }
+
+    .comment-list {
+        margin-top: 30px;
+    }
+
+    .comment {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .comment::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+        z-index: -1;
+        filter: blur(20px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .comment:hover::before {
+        opacity: 1;
+    }
+
+    .comment:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 5px 5px rgba(0,0,0,0.08);
+    }
+
+    .comment-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+    .comment-body {
+        margin-bottom: 15px;
+    }
+
+    .reply-form {
+        margin-top: 15px;
+    }
+
+    .reply {
+        background-color: #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        margin-left: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .reply::before {
+        content: '';
+        position: absolute;
+        top: 15px;
+        left: -15px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 15px solid #e9ecef;
+    }
+
+    .reply:hover {
+        background-color: #dee2e6;
+        transform: translateX(5px);
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        .post-title {
+            font-size: 2em;
+        }
+
+        .post-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .post-author, .post-likes {
+            margin-bottom: 10px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .comment, .reply {
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .post-title {
+            font-size: 1.5em;
+        }
+
+        .post-body {
+            font-size: 1em;
+        }
+
+        .comment-form textarea {
+            font-size: 0.9em;
+        }
+    }
+
+
+
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script> 
+$(document).ready(function() {
+    // Smooth scroll
+    $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if( target.length ) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top
+            }, 1000);
+        }
+    });
+
+    // Like button functionality
+    $('#likeButton').on('click', function() {
+        var postId = $(this).data('post-id');
+        var isLiked = $(this).hasClass('active');
+        var url = isLiked ? '{% url "home:post_unlike" 0 %}'.replace('0', postId) : '{% url "home:post_like" 0 %}'.replace('0', postId);
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response) {
+                $('#likeButton').toggleClass('active');
+                $('#likeButtonText').text(isLiked ? 'Like' : 'Unlike');
+                $('#likes-count').text(response.likes_count);
+            }
+        });
+    });
+
+    // Animate elements on scroll
+    function animateOnScroll() {
+        $('.post-card, .comment').each(function() {
+            var bottom_of_object = $(this).offset().top + $(this).outerHeight();
+            var bottom_of_window = $(window).scrollTop() + $(window).height();
+            
+            if( bottom_of_window > bottom_of_object ){
+                $(this).addClass('animate__animated animate__fadeInUp');
+            }
+        });
+    }
+
+    // Run animation on load
+    animateOnScroll();
+
+    // Run animation on scroll
+    $(window).scroll(function() {
+        animateOnScroll();
+    });
+
+    // Add hover effect to buttons
+    $('.btn, .like-button').hover(
+        function() {
+            $(this).addClass('animate__animated animate__pulse');
+        },
+        function() {
+            $(this).removeClass('animate__animated animate__pulse');
+        }
+    );
+
+    // Add typing effect to post body
+    var postBody = $('.post-body');
+    var text = postBody.text();
+    var length = text.length;
+    var timeOut;
+    var character = 0;
+
+    (function typeWriter() {
+        timeOut = setTimeout(function() {
+            character++;
+            var type = text.substring(0, character);
+            postBody.text(type);
+            typeWriter();
+
+            if (character == length) {
+                clearTimeout(timeOut);
+            }
+        }, 5);
+    }());
+
+    // Add parallax effect to post header
+    $(window).scroll(function() {
+        var scrollPosition = $(this).scrollTop();
+        $('.post-header').css('background-position', '0 ' + -(scrollPosition * 0.5) + 'px');
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <article class="post-card">
+        <header class="post-header">
+            <h1 class="post-title">{{ post.title|capfirst }}</h1>
+        </header>
+        <div class="post-meta">
+            <a href="{% url 'account:user_profile' post.user.id %}" class="post-author">
+                By: {{ post.user.first_name|capfirst }} {{ post.user.last_name|capfirst }} ({{ post.user.username }})
+            </a>
+            <span class="post-likes">Likes: <span id="likes-count">{{ post.likes_count }}</span></span>
+        </div>
+        {% if request.user.id == post.user.id %}
+        <div class="action-buttons">
+            <a href="{% url 'home:post_delete' post.id %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'home:post_update' post.id %}" class="btn btn-info">Update</a>
+        </div>
+        {% endif %}
+        <div class="post-body">
+            {{ post.body }}
+        </div>
+        <footer class="post-footer">
+            <time>Created: {{ post.created }} - Updated: {{ post.updated }}</time>
+        </footer>
+    </article>
+
+    {% if request.user.is_authenticated %}
+    <div class="like-section">
+        <button id="likeButton" class="like-button {% if post_is_like %}active{% endif %}" data-post-id="{{ post.id }}">
+            <i class="fas fa-heart"></i> 
+            <span id="likeButtonText">{% if post_is_like %}Unlike{% else %}Like{% endif %}</span>
+        </button>
+    </div>
+
+    <div class="comment-section">
+        <h3>Add a Comment</h3>
+        <form action="" method="post" class="comment-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+    {% else %}
+    <p class="alert alert-warning">Please log in to like or comment on this post.</p>
+    {% endif %}
+
+    <div class="comment-list">
+        <h3>Comments (<span id="comment-count">{{ comments.count }}</span>)</h3>
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-header">
+                {{ comment.user }} - {{ comment.created|timesince }} ago
+            </div>
+            <div class="comment-body">
+                {{ comment.body }}
+            </div>
+            {% if request.user.is_authenticated and request.user.id == post.user.id %}
+            <form action="{% url 'home:post_add_reply' post.id comment.id %}" method="post" class="reply-form">
+                {% csrf_token %}
+                {{ form_reply.as_p }}
+                <button type="submit" class="btn btn-secondary">Reply</button>
+            </form>
+            {% endif %}
+            {% with replies=comment.rcomments.all %}
+            {% for reply in replies %}
+            <div class="reply">
+                <strong>{{ reply.user }}</strong> - {{ reply.created|timesince }} ago
+                <p>{{ reply.body }}</p>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+        {% empty %}
+        <p class="alert alert-info">No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

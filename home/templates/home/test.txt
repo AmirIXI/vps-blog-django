@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_styles %}
+    <style>
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .content-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-section {
+            margin-bottom: 20px;
+        }
+        .blog-post {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .blog-post:hover {
+            transform: scale(1.05);
+        }
+        .post-title {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .post-body {
+            margin-bottom: 10px;
+        }
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 80%;
+            color: #6c757d;
+        }
+        .author,
+        .timestamp {
+            margin: 0;
+        }
+        .kos {
+            font-family: monospace;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: red;
+            text-decoration: none;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a, .pagination span {
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .pagination .current-page {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        @media (max-width: 600px) {
+            .content-container {
+                padding: 10px;
+            }
+            .post-title {
+                font-size: 1.3em;
+            }
+            .blog-post {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <section class="welcome-section">
+            <h1>Welcome to Our Blog!</h1>
+            <p>Explore and Share Your Moments</p>
+            <hr>
+        </section>
+
+        <section class="search-section">
+            <form action="" method="get" class="search-form">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-info">Search</button>
+            </form>
+        </section>
+
+        <br><br>
+
+        <section class="post-section">
+            {% for post in page_obj %}
+                <div class="blog-post">
+                    <h2 class="post-title"><a class="kos" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                    <hr>
+                    <p class="post-body">{{ post.body|truncatewords:20 }}</p>
+                    <br>
+                    <div class="post-meta">
+                        <p class="author">By: <a href="{% url 'account:user_profile' post.user.id %}">{{ post.user.username|capfirst }}</a></p>
+                        <p class="timestamp">{{ post.created|timesince }} ago</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No posts found.</p>
+            {% endfor %}
+        </section>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="current-page">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Last &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

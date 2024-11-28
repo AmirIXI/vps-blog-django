@@ -1,0 +1,89 @@
+/* Add this to your existing CSS or create a new CSS file */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.user-profile {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-username,
+.profile-name,
+.profile-followers,
+.profile-moments {
+    margin-bottom: 10px;
+}
+
+.profile-actions {
+    margin-bottom: 20px;
+}
+
+.follow-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.follow-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.profile-divider {
+    margin: 20px 0;
+    border-color: #ddd;
+}
+
+.post-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.post-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.post-card a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.post-card a:hover {
+    text-decoration: underline;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Optional: Add a subtle animation for tooltip */
+[data-bs-toggle="tooltip"] {
+    transition: transform 0.2s ease-in-out;
+}
+
+[data-bs-toggle="tooltip"]:hover {
+    transform: scale(1.05);
+}

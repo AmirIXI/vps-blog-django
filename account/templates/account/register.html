@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up User{% endblock %}
+
+{% block content %}
+    <h3><i><b>WELCOME TO BLOG!</b></i></h3>
+    <p style="font-family: cursive"><b>&nbsp;Let’s <span style="color: red">begin</span> the <span style="color: red">adventure</span> </b></p>
+    <br><hr/><br>
+
+    <form class="col-md-6" action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <input class="btn btn-success" type="submit" value="Sign Up">
+    </form>
+
+{% endblock %}

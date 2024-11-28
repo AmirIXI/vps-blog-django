@@ -1,0 +1,151 @@
+{% load static %}
+
+{% block page_styles %}
+{% include 'inc/messages.html' %}
+{% include 'inc/navbar.html' %}
+{% endblock %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Activity</title>
+    <link rel="stylesheet" href="{% static 'path/to/your/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <style>
+        /* General Styles */
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Black', sans-serif;
+            background: linear-gradient(#141e30, #243b55);
+            color: #fff;
+            animation: fadeIn 1s ease-in-out; /* Fade in effect */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            animation: slideInUp 0.5s ease forwards; /* Slide in effect */
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .activity-section {
+            margin-bottom: 20px;
+        }
+
+        .activity-section h3 {
+            margin-bottom: 10px;
+            color: #03e9f4; /* Section title color */
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #03e9f4; /* Link color */
+            text-decoration: none; /* Remove underline */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                box-shadow:none
+            }
+            
+            h2 {
+                font-size :24px; /* Smaller heading on mobile */
+            }
+            
+            p,
+            h3 {
+                font-size :14px; /* Smaller text on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+{% block content %}
+<div class="container">
+    <h2>Your Activity</h2>
+
+    <div class="activity-section">
+        <h3>Following:</h3>
+        {% for rel in relation_following %}
+            <p>You are following <span><a href="{% url 'account:user_profile' rel.to_user.id %}">{{ rel.to_user.username }}</a></span></p>
+        {% empty %}
+            <p>You are not following anyone.</p>
+        {% endfor %}
+    </div>
+
+    <div class="activity-section">
+        <h3>Followers:</h3>
+        {% for rel in relation_followers %}
+            <p><span><a href="{% url 'account:user_profile' rel.from_user.id %}">{{ rel.from_user.username }}</a></span> is following you</p>
+        {% empty %}
+            <p>No one is following you yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="activity-section">
+        <h3>Your Liked Posts:</h3>
+        {% for like in post_liked %}
+            <p>You liked the post: <a href="{{ like.post.get_absolute_url }}">{{ like.post.title|truncatewords:10 }}</a></p>
+        {% empty %}
+            <p>You haven't liked any posts yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="activity-section">
+        <h3>Posts Liked by Others:</h3>
+        {% for liked_post in post %}
+            {% for pvote in liked_post.pvotes.all %}
+                <p><span><a href="{% url 'account:user_profile' pvote.user.id %}">{{ pvote.user }}</a></span> liked your post: 
+                <span><a href="{{ liked_post.get_absolute_url }}">{{ pvote.post.title|truncatewords:10 }}</a></span></p>
+            {% empty %}
+                <p>No one has liked your posts yet.</p>
+             {% endfor %}
+         {% endfor %}
+     </div>
+</div>
+{% endblock %}
+
+</body>
+</html>

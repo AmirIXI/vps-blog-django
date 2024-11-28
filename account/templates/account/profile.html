@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block page_styles %}
+    <link rel="stylesheet" href="{% static 'account/profile.css' %}">
+{% endblock %}
+
+{% block title %}
+    BLOG | {{ user.username|capfirst }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="user-profile">
+            <h3 class="profile-username"><b>Username: {{ user.username }}</b></h3>
+
+            <p class="profile-name"><b>Name: {{ user.first_name|capfirst }} {{ user.last_name|capfirst }} - <small style="color: red">user id: {{ user.id }}</small></b></p>
+            <p class="profile-followers">Followers: {{ user.followers.count }}</p>
+
+            <div class="profile-actions">
+                {% if request.user.id == user.id %}
+                    <a href="{% url 'home:post_create' %}" class="btn btn-primary">Create Post</a>
+                {% endif %}
+                {% if request.user.id != user.id %}
+                    <a href="{% if is_following %}{% url 'account:user_unfollow' user.id %}{% else %}{% url 'account:user_follow' user.id %}{% endif %}" class="btn {% if is_following %}btn-danger{% else %}btn-primary{% endif %} follow-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="{% if is_following %}Unfollow{% else %}Follow{% endif %}">
+                        {% if is_following %}Unfollow{% else %}Follow{% endif %}
+                    </a>
+                {% endif %}
+            </div>
+
+            <hr class="profile-divider">
+
+            <p class="profile-moments">Moments: {{ posts.count }}</p>
+
+            {% for post in posts %}
+                <div class="card post-card" data-bs-toggle="tooltip" data-bs-placement="top" title="View Post">
+                    <p class="card-header"><b><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></b></p>
+                    <p class="card-body">{{ post.body|truncatewords:8 }}</p>
+                    <small class="card-footer text-muted"><a href="{% url 'account:user_profile' user.id %}">{{ post.user.username|capfirst }}</a> - {{ post.created|timesince }} ago</small>
+                </div>
+            {% empty %}
+                <p class="alert alert-danger">No posts or moments shared by {{ user.username|capfirst }} yet!</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+/*body {*/
+/*    font-family: 'Your Custom Font', Arial, sans-serif;*/
+/*    background-color: #1e1e1e; !* Dark background color *!*/
+/*    color: #ffffff; !* Light text color *!*/
+/*    line-height: 1.6;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.container {*/
+/*    max-width: 800px;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.card {*/
+/*    background-color: #2d2d2d; !* Dark background color *!*/
+/*    color: #ffffff; !* Light text color *!*/
+/*    border: 1px solid #333;*/
+/*    border-radius: 8px;*/
+/*    margin-bottom: 20px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    transition: transform 0.3s ease-in-out;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.card:hover {*/
+/*    transform: scale(1.02);*/
+/*}*/
+
+/*.card-header {*/
+/*    background-color: #6c757d; !* Grey background color for header *!*/
+/*    color: #ffffff; !* Light text color *!*/
+/*    padding: 15px;*/
+/*    font-size: 24px;*/
+/*    border-radius: 8px 8px 0 0;*/
+/*}*/
+
+/*.card-body {*/
+/*    padding: 20px;*/
+/*    font-size: 18px;*/
+/*}*/
+
+/*.card-footer {*/
+/*    background-color: #333; !* Dark background color *!*/
+/*    padding: 15px;*/
+/*    border-top: 1px solid #444;*/
+/*    border-radius: 0 0 8px 8px;*/
+/*}*/
+
+/*.btn-like, .btn-unlike, .btn-primary, .btn-danger, .btn-info, .btn-success-reply {*/
+/*    width: 120px;*/
+/*    margin-top: 10px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;*/
+/*}*/
+
+/*.btn-like:hover, .btn-unlike:hover, .btn-primary:hover, .btn-danger:hover, .btn-info:hover, .btn-success-reply:hover {*/
+/*    background-color: #28a745; !* Green on hover *!*/
+/*    color: #fff; !* Light text color on hover *!*/
+/*}*/
+
+/*.alert-danger {*/
+/*    background-color: #dc3545; !* Red background color for danger alert *!*/
+/*    color: #fff; !* Light text color for danger alert *!*/
+/*    padding: 10px;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.bg-dark-card {*/
+/*    background-color: #444; !* Dark background color for comments *!*/
+/*    color: #fff; !* Light text color for comments *!*/
+/*    margin-top: 20px;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+
